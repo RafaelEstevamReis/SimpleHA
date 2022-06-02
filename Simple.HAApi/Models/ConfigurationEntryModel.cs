@@ -23,5 +23,11 @@ namespace Simple.HAApi.Models
         [JsonProperty("disabled_by")]
         public object DisabledBy { get; set; }
         public string Reason { get; set; }
+
+        public override string ToString()
+        {
+            return $"[{State}] {Domain}.{EntityId} {Title}";
+        }
+
     }
 }
