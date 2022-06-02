@@ -23,6 +23,16 @@ namespace Simple.HAApi
             client.SetAuthorizationBearer(Token);
         }
 
+        public async Task<bool> CheckRunningAsync()
+        {
+            try
+            {
+                await IsRunningAsync();
+                return true;
+            }
+            catch { return false; }
+        }
+
         public async Task IsRunningAsync()
         {
             var info = await client.GetAsync<string>("/api/");
