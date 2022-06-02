@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RepositoryUrl>https://github.com/RafaelEstevamReis/SimpleHA</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/RafaelEstevamReis/SimpleHA</PackageProjectUrl>
+    <Description>A simple Home-Assistant Rest API Client</Description>
+    <PackageReadmeFile></PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Simple.API" Version="1.5.0" />
+  </ItemGroup>
+
+</Project>
