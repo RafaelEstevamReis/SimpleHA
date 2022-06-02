@@ -14,14 +14,14 @@ Console.WriteLine($"IsOnline: { await instance.CheckRunningAsync() }" );
 /* Get data from configuration */
 var cfgSource = instance.Get<Simple.HAApi.Sources.Configuration>();
 
-var config = await cfgSource.GetConfiguration();
-var entries = await cfgSource.GetConfigurationEntries();
+var config = await cfgSource.GetConfigurationAsync();
+var entries = await cfgSource.GetConfigurationEntriesAsync();
 
 
 /* Get states from entities */
 var statesSource = instance.Get<Simple.HAApi.Sources.States>();
 
-var sun = await statesSource.GetState("sun.sun");
+var sun = await statesSource.GetStateAsync("sun.sun");
 
 /* Get information from Services */
 var srvSource = instance.Get<Simple.HAApi.Sources.Service>();
@@ -33,9 +33,9 @@ var eventSource = instance.Get<Simple.HAApi.Sources.Events>();
 var canSource = new CancellationTokenSource();
 var stream = eventSource.GetEvents(canSource.Token);
 
-
+Console.WriteLine("Continuous stream of events");
 foreach(var e in stream)
 {
-    Console.WriteLine(e);
+    Console.WriteLine($" {e}");
 }
 

@@ -10,10 +10,10 @@ namespace Simple.HAApi.Sources
             : base(info)
         { }
 
-        public async Task<IEnumerable<Models.StateModel>> GetStates()
+        public async Task<IEnumerable<Models.StateModel>> GetStatesAsync()
             => await GetAsync<Models.StateModel[]>("/api/states");
 
-        public async Task<Models.StateModel> GetState(string entityId) 
+        public async Task<Models.StateModel> GetStateAsync(string entityId) 
             => await GetAsync<Models.StateModel>($"/api/states/{entityId}");
     }
 }

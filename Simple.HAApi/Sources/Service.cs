@@ -13,7 +13,7 @@ namespace Simple.HAApi.Sources
         public async Task<Models.ServiceModel[]> GetServicesAsync()
             => await GetAsync<Models.ServiceModel[]>("/api/services");
 
-        public async Task<IEnumerable<Models.StateModel>> CallService(string serviceName, object fields = null)
+        public async Task<IEnumerable<Models.StateModel>> CallServiceAsync(string serviceName, object fields = null)
         {
             var serviceNameParts = serviceName.Split('.');
             return await PostAsync<IEnumerable<Models.StateModel>>($"/api/services/{serviceNameParts[0]}/{serviceNameParts[1]}", fields);
