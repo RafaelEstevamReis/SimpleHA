@@ -7,6 +7,7 @@
     <PackageProjectUrl>https://github.com/RafaelEstevamReis/SimpleHA</PackageProjectUrl>
     <Description>A simple Home-Assistant Rest API Client</Description>
     <PackageReadmeFile></PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
