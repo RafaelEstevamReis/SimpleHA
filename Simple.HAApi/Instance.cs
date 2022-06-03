@@ -8,6 +8,7 @@ namespace Simple.HAApi
     {
         // Docs:
         // https://developers.home-assistant.io/docs/api/rest/
+        // https://github.com/home-assistant/core/blob/dev/homeassistant/components/api/__init__.py
 
         public Uri Uri { get; private set; }
         public string Token { get; private set; }
