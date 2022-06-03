@@ -34,9 +34,16 @@ var eventSource = instance.Get<Simple.HAApi.Sources.Events>();
 var canSource = new CancellationTokenSource();
 var stream = eventSource.GetEvents(canSource.Token);
 
-Console.WriteLine("Continuous stream of events");
+Console.WriteLine("Continuous stream of events (press enter to stop)");
 foreach(var e in stream)
 {
     Console.WriteLine($" {e}");
+    if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Enter)
+    {
+        Console.WriteLine("CANCEL");
+        canSource.Cancel();
+    }
 }
+
+Console.WriteLine("END");
 
