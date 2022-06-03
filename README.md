@@ -1,6 +1,9 @@
 # Simple.HA
 A simple c# Home-Assistant library
 
+
+[![NuGet](https://buildstats.info/nuget/Simple.HAApi)](https://www.nuget.org/packages/Simple.HAApi/)
+
 ## What is?
 
 This is a C# library to interact with [HomeAssitant](https://home-assistant.io)
