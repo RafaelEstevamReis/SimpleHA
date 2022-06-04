@@ -1,9 +1,4 @@
 ﻿using MQTTnet;
-using MQTTnet.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,18 +20,12 @@ namespace Simple.HAMQTT.Modules
         //    => await publishObject(topic, new { value, unit });
 
         public async Task PublishString(string topic, string text)
-            => await publishObject(topic, $"\"{text}\"", raw: true);
+            => await publishObject(topic, $"{text}", raw: true);
         public async Task PublishNumber(string topic, double value)
             => await publishObject(topic, $"{value}", raw: true);
 
         private async Task publishObject(string topic, object obj, bool raw = false)
         {
-
-            var mqttFactory = new MqttFactory();
-
-            using var mqttClient = mqttFactory.CreateMqttClient();
-            var response = await mqttClient.ConnectAsync(brokerInfo.MqttClientOptions, CancellationToken.None);
-
             string content;
 
             if (raw)
@@ -53,9 +42,10 @@ namespace Simple.HAMQTT.Modules
                .WithPayload(content)
                .Build();
 
-            var result = await mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+            var client = await brokerInfo.GetConnectedClientAsync();
+            var result = await client.PublishAsync(applicationMessage, CancellationToken.None);
 
-            await DisconnectAsync(mqttClient);
+            result = result;
         }
     }
 }

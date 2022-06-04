@@ -19,10 +19,11 @@ namespace Simple.HAMQTT.Modules
         {
             if (nodeId is null) throw new ArgumentNullException(nameof(nodeId));
 
-            var mqttFactory = new MqttFactory();
+            //var mqttFactory = new MqttFactory();
+            //using var mqttClient = mqttFactory.CreateMqttClient();
+            //var response = await mqttClient.ConnectAsync(brokerInfo.MqttClientOptions, CancellationToken.None);
 
-            using var mqttClient = mqttFactory.CreateMqttClient();
-            var response = await mqttClient.ConnectAsync(brokerInfo.MqttClientOptions, CancellationToken.None);
+            var mqttClient = await brokerInfo.GetConnectedClientAsync();
 
             //string nodeIdPath = "";
             //if (nodeId != null) nodeIdPath = $"{nodeId}/";
@@ -43,7 +44,7 @@ namespace Simple.HAMQTT.Modules
                 result = result;
             }
 
-            await DisconnectAsync(mqttClient);
+            //await DisconnectAsync(mqttClient);
         }
 
     }
