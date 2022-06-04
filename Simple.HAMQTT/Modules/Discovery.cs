@@ -1,8 +1,6 @@
 ﻿using MQTTnet;
 using MQTTnet.Client.Disconnecting;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,13 +10,12 @@ namespace Simple.HAMQTT.Modules
     {
         public static string DefaultDiscoveryPrefix { get; set; } = "homeassistant";
 
-        internal Discovery(BrokerInfo brokerInfo)
+        public Discovery(BrokerInfo brokerInfo)
             : base(brokerInfo)
         { }
 
-        public async Task RegisterAsync(string component, string nodeId, IEnumerable<Models.DeviceRegistry> entries)
+        public async Task RegisterAsync(string nodeId, IEnumerable<Models.DeviceRegistry> entries)
         {
-
             var mqttFactory = new MqttFactory();
 
             using var mqttClient = mqttFactory.CreateMqttClient();
@@ -30,11 +27,12 @@ namespace Simple.HAMQTT.Modules
             foreach (var registry in entries)
             {
                 var applicationMessage = new MqttApplicationMessageBuilder()
-                   .WithTopic($"{DefaultDiscoveryPrefix}/{component}/{nodeIdPath}{registry.DeviceId}/config")
+                   .WithTopic($"{DefaultDiscoveryPrefix}/{registry.Component}/{nodeIdPath}{registry.DeviceId}/config")
                    .WithPayload(toJson(registry))
                    .Build();
 
-                await mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+                var result = await mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+                result = result;
             }
 
             await mqttClient.DisconnectAsync(new MqttClientDisconnectOptions(), CancellationToken.None);

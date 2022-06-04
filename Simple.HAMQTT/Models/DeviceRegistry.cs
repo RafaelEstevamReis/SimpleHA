@@ -6,7 +6,26 @@ namespace Simple.HAMQTT.Models
     {
         [JsonIgnore]
         public string DeviceId { get; set; }
+        [JsonIgnore]
+        public string Component { get; set; }
 
+
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+        public string Name { get; set; }
+
+        [JsonProperty("unique_id", NullValueHandling = NullValueHandling.Ignore)]
+        public string UniqueId { get; set; }
+        [JsonProperty("device_class", NullValueHandling = NullValueHandling.Ignore)]
+        public string DeviceClass { get; set; }
+
+        [JsonProperty("device", NullValueHandling = NullValueHandling.Ignore)]
+        public DeviceInfo Device { get; set; }
+
+        [JsonProperty("availability_topic", NullValueHandling = NullValueHandling.Ignore)]
+        public string AvailabilityTopic { get; set; }
+    }
+    public class DeviceInfo
+    {
         [JsonProperty("configuration_url", NullValueHandling = NullValueHandling.Ignore)]
         public string ConfigurationUrl { get; set; }
 
@@ -29,20 +48,15 @@ namespace Simple.HAMQTT.Models
         [JsonProperty("suggested_area", NullValueHandling = NullValueHandling.Ignore)]
         public string SuggestedArea { get; set; }
 
-        [JsonProperty("unique_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string UniqueId { get; set; }
-        [JsonProperty("device_class", NullValueHandling = NullValueHandling.Ignore)]
-        public string DeviceClass { get; set; }
-
-        [JsonProperty("device", NullValueHandling = NullValueHandling.Ignore)]
-        public string Device { get; set; }
-
-        [JsonProperty("availability_topic", NullValueHandling = NullValueHandling.Ignore)]
-        public string AvailabilityTopic { get; set; }
-
     }
+
     public class SensorRegistry : DeviceRegistry
     {
+        public SensorRegistry()
+        {
+            Component = "sensor";
+        }
+
         [JsonProperty("state_topic", NullValueHandling = NullValueHandling.Ignore)]
         public string StateTopic { get; set; }
         [JsonProperty("unit_of_measurement", NullValueHandling = NullValueHandling.Ignore)]
@@ -56,7 +70,8 @@ namespace Simple.HAMQTT.Models
                 StateTopic = stateTopic,
                 DeviceClass = deviceClass,
                 UnitOfMeasurement = unit,
-                UniqueId = sensorId
+                UniqueId = sensorId,
+                DeviceId = sensorId,
             };
         }
     }
@@ -68,5 +83,9 @@ namespace Simple.HAMQTT.Models
         public string PayloadOff { get; set; }
 
 
+        public BinarySensorRegistry()
+        {
+            Component = "binary_sensor";
+        }
     }
 }

@@ -30,7 +30,6 @@ namespace Simple.HAMQTT
 
             brokerInfo = new BrokerInfo()
             {
-                MqttFactory = new MqttFactory(),
                 MqttClientOptions = optBuilder.Build(),
             };
 

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Simple.HAApi\Simple.HAApi.csproj" />
+    <ProjectReference Include="..\Simple.HAMQTT\Simple.HAMQTT.csproj" />
   </ItemGroup>
 
 </Project>
