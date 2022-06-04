@@ -1,4 +1,5 @@
 ﻿using MQTTnet;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace Simple.HAMQTT.Modules
         public async Task PublishString(string topic, string text)
             => await publishObject(topic, $"{text}", raw: true);
         public async Task PublishNumber(string topic, double value)
-            => await publishObject(topic, $"{value}", raw: true);
+            => await publishObject(topic, value.ToString(CultureInfo.InvariantCulture), raw: true);
 
         private async Task publishObject(string topic, object obj, bool raw = false)
         {
