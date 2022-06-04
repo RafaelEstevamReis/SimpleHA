@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleHA.Tests", "SimpleHA.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.HAApi", "Simple.HAApi\Simple.HAApi.csproj", "{4815A866-0E9C-4D5B-A9FD-D74DCD48E682}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.HAMQTT", "Simple.HAMQTT\Simple.HAMQTT.csproj", "{12ADB771-4685-4104-9F0C-9F1F884C03EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4815A866-0E9C-4D5B-A9FD-D74DCD48E682}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4815A866-0E9C-4D5B-A9FD-D74DCD48E682}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4815A866-0E9C-4D5B-A9FD-D74DCD48E682}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12ADB771-4685-4104-9F0C-9F1F884C03EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12ADB771-4685-4104-9F0C-9F1F884C03EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12ADB771-4685-4104-9F0C-9F1F884C03EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12ADB771-4685-4104-9F0C-9F1F884C03EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
