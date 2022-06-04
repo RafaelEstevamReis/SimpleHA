@@ -78,15 +78,15 @@ namespace Simple.HAMQTT.Models
     }
     public class BinarySensorRegistry : SensorRegistry
     {
-        [JsonProperty("payload_on", NullValueHandling = NullValueHandling.Ignore)]
-        public string PayloadOn { get; set; }
-        [JsonProperty("payload_off", NullValueHandling = NullValueHandling.Ignore)]
-        public string PayloadOff { get; set; }
-
-
         public BinarySensorRegistry()
         {
             Component = "binary_sensor";
         }
+
+        [JsonProperty("payload_on", NullValueHandling = NullValueHandling.Ignore)]
+        public string PayloadOn { get; set; }
+        [JsonProperty("payload_off", NullValueHandling = NullValueHandling.Ignore)]
+        public string PayloadOff { get; set; }
     }
+
 }
