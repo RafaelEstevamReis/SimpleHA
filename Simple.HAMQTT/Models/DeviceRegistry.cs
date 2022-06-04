@@ -62,7 +62,7 @@ namespace Simple.HAMQTT.Models
         [JsonProperty("unit_of_measurement", NullValueHandling = NullValueHandling.Ignore)]
         public string UnitOfMeasurement { get; set; }
 
-        public static SensorRegistry Build(string displayName, string stateTopic, string deviceClass, string unit, string sensorId)
+        public static SensorRegistry Build(string displayName, string stateTopic, string deviceClass, string unit, string sensorId, string deviceId = null, string availabilityTopic = null)
         {
             return new SensorRegistry
             {
@@ -71,7 +71,8 @@ namespace Simple.HAMQTT.Models
                 DeviceClass = deviceClass,
                 UnitOfMeasurement = unit,
                 UniqueId = sensorId,
-                DeviceId = sensorId,
+                DeviceId = deviceId ?? sensorId,
+                AvailabilityTopic = availabilityTopic,
             };
         }
     }
