@@ -5,15 +5,13 @@ using Simple.HAMQTT;
 using Simple.HAMQTT.Models;
 using Simple.HAMQTT.Modules;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 public class SampleMqtt
 {
     public static async Task Run()
     {
+        Random random = new Random();
         // Put your server in a text file
         var lines = File.ReadAllLines("mqtt.txt");
 
@@ -21,34 +19,38 @@ public class SampleMqtt
         string availTopic = $"{basicTopic}/status";
         string batTopic = $"{basicTopic}/sensor/battery_test";
         string cpuTopic = $"{basicTopic}/sensor/cpu_test";
+        string btnTopic = $"{basicTopic}/button/btn_test";
 
         Broker broker = new Broker(lines[0]);
         var publisher = broker.Get<Publish>();
-        //var subcriber = broker.Get<Subscribe>();
-        //await subcriber.SubscribeTo(availTopic, processStatusMessageAsync);
+        var subcriber = broker.Get<Subscribe>();
+        await subcriber.SubscribeTo(btnTopic, processStatusMessageAsync);
 
         var discovery = broker.Get<Discovery>();
         var devices = new DeviceRegistry[]
         {
             SensorRegistry.Build("Test Battery Level", batTopic , "battery", "%", "ha_battery", availabilityTopic: availTopic),
             SensorRegistry.Build("Test CPU", cpuTopic, null, "%", "cpu_use", availabilityTopic: availTopic),
+            ButtonRegistry.Build("Test Button", btnTopic, null, "btnTest"),
         };
         await discovery.RegisterAsync("SimpleHA", devices);
 
-        await publisher.PublishString(availTopic, "online");
-        await publisher.PublishNumber(batTopic, 57.2);
-        await publisher.PublishNumber(cpuTopic, 0.1);
-
-        publisher = publisher;
-
+        float pBat = random.Next(40, 70);
         while (true)
         {
-            for (int i = 0; i < 30; i++) // 30s
+            await publisher.PublishString(availTopic, "online");
+            Console.WriteLine("ONLINE");
+
+            if (DateTime.Now.Hour % 2 == 0) pBat -= 0.3f;
+            else pBat += 0.2f;
+
+            await publisher.PublishNumber(batTopic, Math.Round(pBat, 1));
+            await publisher.PublishNumber(cpuTopic, Math.Round(random.NextDouble() / 3, 2));
+
+            for (int i = 0; i < 60; i++) // 30s
             {
                 await Task.Delay(1000);
             }
-            await publisher.PublishString(availTopic, "online");
-            Console.WriteLine("ONLINE");
         }
     }
 
@@ -56,6 +58,7 @@ public class SampleMqtt
     {
         var msg = sub.As<string>(arg.ApplicationMessage);
 
+        Console.WriteLine(msg);
         await Task.CompletedTask;
     }
 }
