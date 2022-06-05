@@ -1,5 +1,8 @@
 ﻿using Simple.API;
 using System;
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Simple.HAApi
@@ -13,6 +16,8 @@ namespace Simple.HAApi
         public Uri Uri { get; private set; }
         public string Token { get; private set; }
 
+        public bool IgnoreCertificatErrors { get; set; } = false;
+
         internal readonly ClientInfo client;
 
         public Instance(Uri uri, string token)
@@ -20,8 +25,18 @@ namespace Simple.HAApi
             Uri = uri;
             Token = token;
 
-            client = new ClientInfo(Uri.ToString());
+            var handler = new HttpClientHandler()
+            {
+                ServerCertificateCustomValidationCallback = certificateValidation,
+            };
+            client = new ClientInfo(Uri.ToString(), handler);
             client.SetAuthorizationBearer(Token);
+        }
+        private bool certificateValidation(HttpRequestMessage message, X509Certificate2 certificate, X509Chain chain, SslPolicyErrors policy)
+        {
+            if (IgnoreCertificatErrors) return true;
+
+            return false;
         }
 
         public async Task<bool> CheckRunningAsync()

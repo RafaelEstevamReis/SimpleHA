@@ -12,6 +12,7 @@ public class SampleAPI
         string haToken = lines.Where(o => o.StartsWith("ey")).First();
 
         var instance = new Instance(new Uri(haUrl), haToken);
+        // instance.IgnoreCertificatErrors = true;
 
         Console.WriteLine($"IsOnline: { await instance.CheckRunningAsync() }");
 
