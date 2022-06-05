@@ -15,7 +15,7 @@ namespace Simple.HAMQTT.Modules
             : base(brokerInfo)
         { }
 
-        public async Task RegisterAsync(string nodeId, IEnumerable<Models.DeviceRegistry> entries)
+        public async Task RegisterAsync(string nodeId, IEnumerable<Models.DeviceRegistry> entries, Models.DeviceInfo device = null)
         {
             if (nodeId is null) throw new ArgumentNullException(nameof(nodeId));
 
@@ -30,6 +30,11 @@ namespace Simple.HAMQTT.Modules
 
             foreach (var registry in entries)
             {
+                if(device != null && registry == null)
+                {
+                    registry.Device = device;
+                }
+
                 var applicationMessage = new MqttApplicationMessageBuilder()
                    .WithTopic($"{DefaultDiscoveryPrefix}/{registry.Component}/{nodeId}/{registry.DeviceId}/config")
                    .WithPayload(toJson(registry))
