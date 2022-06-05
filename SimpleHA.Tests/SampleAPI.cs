@@ -3,7 +3,7 @@ using Simple.HAApi;
 
 public class SampleAPI
 {
-    public static async void Run()
+    public static async Task Run()
     {
         // Put your token and url in a text file
         var lines = File.ReadAllLines("token.txt");
@@ -12,7 +12,6 @@ public class SampleAPI
         string haToken = lines.Where(o => o.StartsWith("ey")).First();
 
         var instance = new Instance(new Uri(haUrl), haToken);
-
 
         Console.WriteLine($"IsOnline: { await instance.CheckRunningAsync() }");
 
