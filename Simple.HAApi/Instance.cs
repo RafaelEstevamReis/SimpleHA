@@ -1,8 +1,6 @@
 ﻿using Simple.API;
 using System;
 using System.Net.Http;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Simple.HAApi
@@ -32,7 +30,10 @@ namespace Simple.HAApi
             client = new ClientInfo(Uri.ToString(), handler);
             client.SetAuthorizationBearer(Token);
         }
-        private bool certificateValidation(HttpRequestMessage message, X509Certificate2 certificate, X509Chain chain, SslPolicyErrors policy)
+        private bool certificateValidation(HttpRequestMessage message, 
+                                           System.Security.Cryptography.X509Certificates.X509Certificate2 certificate,
+                                           System.Security.Cryptography.X509Certificates.X509Chain chain,
+                                           System.Net.Security.SslPolicyErrors policy)
         {
             if (IgnoreCertificatErrors) return true;
 
