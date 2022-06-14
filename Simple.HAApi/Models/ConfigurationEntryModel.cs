@@ -4,8 +4,8 @@ namespace Simple.HAApi.Models
 {
     public class ConfigurationEntriesModel
     {
-        [JsonProperty("entity_id")]
-        public string EntityId { get; set; }
+        [JsonProperty("entry_id")]
+        public string EntryId { get; set; }
         public string Domain { get; set; }
         public string Title { get; set; }
         public string Source { get; set; }
@@ -26,8 +26,9 @@ namespace Simple.HAApi.Models
 
         public override string ToString()
         {
-            return $"[{State}] {Domain}.{EntityId} {Title}";
+            return $"[{State}] {Domain} {Title}";
         }
 
     }
+
 }
