@@ -7,7 +7,7 @@
 		<RepositoryUrl>https://github.com/RafaelEstevamReis/SimpleHA</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/RafaelEstevamReis/SimpleHA</PackageProjectUrl>
-		<Description>A simple Home-Assistant MQTT Client</Description>
+		<Description>A simple Home-Assistant MQTT Client/Device</Description>
 		<PackageReadmeFile></PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
