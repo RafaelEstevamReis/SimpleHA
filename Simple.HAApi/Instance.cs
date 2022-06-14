@@ -37,7 +37,7 @@ namespace Simple.HAApi
         {
             if (IgnoreCertificatErrors) return true;
 
-            return false;
+            return policy == System.Net.Security.SslPolicyErrors.None;
         }
 
         public async Task<bool> CheckRunningAsync()
