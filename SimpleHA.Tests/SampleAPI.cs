@@ -14,14 +14,14 @@ public class SampleAPI
         var instance = new Instance(new Uri(haUrl), haToken);
         // instance.IgnoreCertificatErrors = true;
 
-        Console.WriteLine($"IsOnline: { await instance.CheckRunningAsync() }");
+        Console.WriteLine($"IsOnline: {await instance.CheckRunningAsync()}");
 
         /* Get data from configuration */
         var cfgSource = instance.Get<Simple.HAApi.Sources.Configuration>();
 
         var config = await cfgSource.GetConfigurationAsync();
         var entries = await cfgSource.GetConfigurationEntriesAsync();
-
+        //var result = await cfgSource.GetReloadEntryAsync(entries[0].EntryId);
 
         /* Get states from entities */
         var statesSource = instance.Get<Simple.HAApi.Sources.States>();
