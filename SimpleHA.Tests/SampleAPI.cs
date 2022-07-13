@@ -26,11 +26,10 @@ public class SampleAPI
 
         /* Get states from entities */
         var statesSource = instance.Get<Simple.HAApi.Sources.States>();
-
+        var sun = await statesSource.GetStateAsync("sun.sun");
         var all = await statesSource.GetStatesAsync();
         var switches = all.OfDomain("switch");
         var swIds = switches.GetIds();
-        var sun = await statesSource.GetStateAsync("sun.sun");
 
         /* Get information from Services */
         var srvSource = instance.Get<Simple.HAApi.Sources.Service>();
