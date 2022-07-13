@@ -107,5 +107,10 @@ namespace Simple.HAApi.Sources
             msg.Dispose();
         }
 
+        public async Task<IEnumerable<Models.EventListenersModel>> GetEventsAsync()
+            => await GetAsync< IEnumerable<Models.EventListenersModel>>("/api/events");
+
+        public async Task<string> FireEventAsync(string eventType, object payload)
+            => await PostAsync<string>($"/api/events/{eventType}", payload);
     }
 }
