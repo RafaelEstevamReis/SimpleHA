@@ -14,7 +14,7 @@ namespace Simple.HAApi.Sources
             => await GetAsync<byte[]>($"/api/camera_proxy/{cameraEntityId}");
         public async Task SaveCameraImageAsync(string cameraEntityId, string path)
         {
-            var bytes = await GetAsync<byte[]>($"/api/camera_proxy/{cameraEntityId}");
+            var bytes = await GetImageAsync(cameraEntityId);
             File.WriteAllBytes(path, bytes);
         }
 
