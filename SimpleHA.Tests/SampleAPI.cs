@@ -43,27 +43,6 @@ public class SampleAPI
         };
         var t = eventSource.CollectEventsAsync(canSource.Token);
 
-
-
-        while (true)
-        {
-            Thread.Sleep(1);
-
-        }
-
-        var stream = eventSource.GetEvents(canSource.Token);
-
-        Console.WriteLine("Continuous stream of events (press enter to stop)");
-        foreach (var e in stream)
-        {
-            Console.WriteLine($" {e}");
-            if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Enter)
-            {
-                Console.WriteLine("CANCEL");
-                canSource.Cancel();
-            }
-        }
-
         Console.WriteLine("END");
 
     }
