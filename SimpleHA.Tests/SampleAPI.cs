@@ -34,6 +34,8 @@ public class SampleAPI
         /* Get information from Services */
         var srvSource = instance.Get<Simple.HAApi.Sources.Service>();
         var services = await srvSource.GetServicesAsync();
+        // turn light on
+        var result = await srvSource.CallServiceAsync(Simple.HAApi.Sources.Service.Light.TurnOn, "bedroom.light");
 
         /* Get a stream of events */
         var eventSource = instance.Get<Simple.HAApi.Sources.Events>();
