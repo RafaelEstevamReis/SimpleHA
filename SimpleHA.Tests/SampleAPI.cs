@@ -37,6 +37,20 @@ public class SampleAPI
         var eventSource = instance.Get<Simple.HAApi.Sources.Events>();
 
         var canSource = new CancellationTokenSource();
+        eventSource.OnNewEvent += (s, e) =>
+        {
+            Console.WriteLine($" {e}");
+        };
+        var t = eventSource.CollectEventsAsync(canSource.Token);
+
+
+
+        while (true)
+        {
+            Thread.Sleep(1);
+
+        }
+
         var stream = eventSource.GetEvents(canSource.Token);
 
         Console.WriteLine("Continuous stream of events (press enter to stop)");
