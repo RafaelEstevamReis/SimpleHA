@@ -36,6 +36,8 @@ namespace Simple.HAApi.Models
         public string FriendlyName
             => GetAttribute<string>("friendly_name");
 
+        public string Domain => EntityId?.Split('.')[0];
+
         public override string ToString() => $"{FriendlyName ?? EntityId}: {State}";
     }
 }
