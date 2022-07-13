@@ -28,6 +28,8 @@ public class SampleAPI
         var statesSource = instance.Get<Simple.HAApi.Sources.States>();
 
         var all = await statesSource.GetStatesAsync();
+        var switches = all.OfDomain("switch");
+        var swIds = switches.GetIds();
         var sun = await statesSource.GetStateAsync("sun.sun");
 
         /* Get information from Services */
