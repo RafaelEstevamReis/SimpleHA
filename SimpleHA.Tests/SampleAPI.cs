@@ -21,6 +21,7 @@ public class SampleAPI
 
         var config = await cfgSource.GetConfigurationAsync();
         var entries = await cfgSource.GetConfigurationEntriesAsync();
+        var check = await cfgSource.CheckConfigAsync();
         //var result = await cfgSource.GetReloadEntryAsync(entries[0].EntryId);
 
         /* Get states from entities */
@@ -35,6 +36,7 @@ public class SampleAPI
 
         /* Get a stream of events */
         var eventSource = instance.Get<Simple.HAApi.Sources.Events>();
+        var e = await eventSource.GetEventsAsync();
 
         var canSource = new CancellationTokenSource();
         eventSource.OnNewEvent += (s, e) =>
