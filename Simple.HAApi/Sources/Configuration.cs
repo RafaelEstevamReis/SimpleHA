@@ -20,5 +20,8 @@ namespace Simple.HAApi.Sources
         public async Task<Models.ConfigurationReloadModel> GetReloadEntryAsync(string entryId)
             => await PostAsync<Models.ConfigurationReloadModel>($"api/config/config_entries/entry/{entryId}/reload", null);
 
+        public async Task<Models.ConfigurationCheckModel> CheckConfigAsync()
+            => await PostAsync<Models.ConfigurationCheckModel>("/api/config/core/check_config", null);
+
     }
 }
