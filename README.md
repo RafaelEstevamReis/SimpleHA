@@ -51,8 +51,10 @@ var all = await statesSource.GetStatesAsync();
 var srvSource = instance.Get<Simple.HAApi.Sources.Service>();
 // Get all services
 var services = await srvSource.GetServicesAsync();
-// Or call a service
-await srvSource.CallServiceForEntities(Service.Light.TurnOn, "switch.office");
+// Or call a service for a single entity
+await srvSource.CallService(Service.Light.TurnOn, "switch.office");
+// or multiple
+await srvSource.CallService(Service.Light.TurnOn, "switch.office1", "switch.office2", ..., "switch.officeN");
 ~~~
 
 6. Get a continuous stream of events
