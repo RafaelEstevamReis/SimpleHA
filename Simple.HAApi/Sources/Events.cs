@@ -25,23 +25,33 @@ namespace Simple.HAApi.Sources
             if (OnNewEvent is null) throw new InvalidOperationException($"{nameof(OnNewEvent)} should not be null");
 
             var uri = new Uri(client.BaseUri, "api/stream");
-            var msg = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await httpClient.SendAsync(msg, HttpCompletionOption.ResponseHeadersRead);
+            using var msg = new HttpRequestMessage(HttpMethod.Get, uri);
+            using var response = await httpClient.SendAsync(msg, HttpCompletionOption.ResponseHeadersRead);
 
             response.EnsureSuccessStatusCode();
 
             var baseStream = await response.Content.ReadAsStreamAsync();
-            using (var sr = new StreamReader(baseStream))
+            // About cancelling ReadLineAsync:
+            // https://stackoverflow.com/a/20132104/734639
+            // There is no true cancellation in the underliyng system
+            // so the cancellation must kill the connection,
+            // forcing ReadLineAsync to return (or break)
+            token.Register(() =>
             {
-                while (!token.IsCancellationRequested)
+                // This will kill the stream and the connection
+                // resulting in an exception during ReadLineAsync
+                msg?.Dispose();
+                response?.Dispose();
+                baseStream?.Dispose();
+            });
+            try
+            {
+                using var sr = new StreamReader(baseStream);
+                while (!sr.EndOfStream)
                 {
-                    if (sr.Peek() < 0)
-                    {
-                        await Task.Delay(1, token);
-                        continue;
-                    }
-
+                    //if (token.IsCancellationRequested) break;
                     var line = await sr.ReadLineAsync();
+
                     if (line is null) break; // No more data on the stream
                     if (string.IsNullOrEmpty(line)) continue;
 
@@ -53,13 +63,15 @@ namespace Simple.HAApi.Sources
                     OnNewEvent(this, evnt);
                 }
             }
-
-            response.Dispose();
-            msg.Dispose();
+            catch
+            {
+                if (token.IsCancellationRequested) return;
+                throw;
+            }
         }
 
 
-
+        [Obsolete("Use CollectEventsAsync instead")]
         public IEnumerable<Models.EventModel> GetEvents(CancellationToken token, params string[] entitiesIds)
         {
             var uri = new Uri(client.BaseUri, "api/stream");
