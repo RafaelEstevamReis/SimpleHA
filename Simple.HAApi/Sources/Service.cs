@@ -24,5 +24,12 @@ namespace Simple.HAApi.Sources
             var serviceNameParts = serviceName.Split('.');
             return await PostAsync<IEnumerable<Models.StateModel>>($"/api/services/{serviceNameParts[0]}/{serviceNameParts[1]}", new { entity_id = entityIds });
         }
+
+        public async Task<IEnumerable<Models.StateModel>> CallServiceJsonAsync(string serviceName, string json)
+        {
+            var serviceNameParts = serviceName.Split('.');
+            return await PostJsonAsync<IEnumerable<Models.StateModel>>($"/api/services/{serviceNameParts[0]}/{serviceNameParts[1]}", json);
+        }
+
     }
 }
