@@ -52,7 +52,7 @@ var srvSource = instance.Get<Simple.HAApi.Sources.Service>();
 // Get all services
 var services = await srvSource.GetServicesAsync();
 // Or call a service
-await srvSource.CallServiceForEntities("switch.turn_on", "switch.office");
+await srvSource.CallServiceForEntities(Service.Light.TurnOn, "switch.office");
 ~~~
 
 6. Get a continuous stream of events
@@ -61,13 +61,10 @@ await srvSource.CallServiceForEntities("switch.turn_on", "switch.office");
 var eventSource = instance.Get<Simple.HAApi.Sources.Events>();
 // Get a cancellation token to stop the process anytime
 var canSource = new CancellationTokenSource();
-// Get the enumerable
-var stream = eventSource.GetEvents(canSource.Token);
-// Show data
-Console.WriteLine("Continuous stream of events");
-foreach(var e in stream)
+eventSource.OnNewEvent += (s, e) =>
 {
     Console.WriteLine($" {e}");
-}
+};
+var t = eventSource.CollectEventsAsync(canSource.Token);
 ~~~
 
