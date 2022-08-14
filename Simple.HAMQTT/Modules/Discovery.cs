@@ -1,5 +1,4 @@
 ﻿using MQTTnet;
-using MQTTnet.Client.Disconnecting;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -18,10 +17,6 @@ namespace Simple.HAMQTT.Modules
         public async Task RegisterAsync(string nodeId, IEnumerable<Models.DeviceRegistry> entries, Models.DeviceInfo device = null)
         {
             if (nodeId is null) throw new ArgumentNullException(nameof(nodeId));
-
-            //var mqttFactory = new MqttFactory();
-            //using var mqttClient = mqttFactory.CreateMqttClient();
-            //var response = await mqttClient.ConnectAsync(brokerInfo.MqttClientOptions, CancellationToken.None);
 
             var mqttClient = await brokerInfo.GetConnectedClientAsync();
 

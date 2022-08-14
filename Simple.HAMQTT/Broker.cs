@@ -73,6 +73,8 @@ namespace Simple.HAMQTT
                 {
                     lock (lockObj)
                     {
+                        if (mqttClient.IsConnected) return;
+
                         var response = mqttClient.ConnectAsync(MqttClientOptions, CancellationToken.None).Result;
                         response = response;
                     }
