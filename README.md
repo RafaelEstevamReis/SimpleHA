@@ -18,6 +18,8 @@ Some (almost none) source documentation: https://developers.home-assistant.io/do
 1. Create an Instance
 ~~~C#
 var instance = new Instance(new Uri("https://myHA.io:8123"), yourToken);
+// You can ignore SSL errors if needed:
+instance.IgnoreCertificatErrors = true;
 ~~~
 
 2. Basic diagnostics
