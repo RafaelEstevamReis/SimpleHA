@@ -2,7 +2,9 @@
 A simple c# Home-Assistant library
 
 
-[![NuGet](https://buildstats.info/nuget/Simple.HAApi)](https://www.nuget.org/packages/Simple.HAApi/)
+Simple.HAApi: [![NuGet](https://buildstats.info/nuget/Simple.HAApi)](https://www.nuget.org/packages/Simple.HAApi/)
+
+Simple.HAMQTT: [![NuGet](https://buildstats.info/nuget/Simple.HAMQTT)](https://www.nuget.org/packages/Simple.HAMQTT/)
 
 ## What is?
 
