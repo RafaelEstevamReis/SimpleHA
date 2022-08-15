@@ -20,9 +20,6 @@ namespace Simple.HAMQTT.Modules
 
             var mqttClient = await brokerInfo.GetConnectedClientAsync();
 
-            //string nodeIdPath = "";
-            //if (nodeId != null) nodeIdPath = $"{nodeId}/";
-
             foreach (var registry in entries)
             {
                 if(device != null && registry == null)
@@ -41,10 +38,7 @@ namespace Simple.HAMQTT.Modules
                 Console.WriteLine(">" + System.Text.Encoding.UTF8.GetString(applicationMessage.Payload));
 
                 var result = await mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
-                result = result;
             }
-
-            //await DisconnectAsync(mqttClient);
         }
 
     }

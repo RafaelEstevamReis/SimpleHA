@@ -46,7 +46,6 @@ namespace Simple.HAMQTT.Modules
             var client = await brokerInfo.GetConnectedClientAsync();
             var result = await client.PublishAsync(applicationMessage, CancellationToken.None);
 
-            result = result;
         }
     }
 }

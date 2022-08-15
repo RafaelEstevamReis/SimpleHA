@@ -9,12 +9,14 @@ namespace Simple.HAMQTT
 {
     public class Broker
     {
-        internal BrokerInfo brokerInfo;
+        //internal BrokerInfo brokerInfo;
 
         public string Address { get; private set; }
         public int Port { get; private set; } // = 1883;
 
         public string UserName { get; private set; }
+
+        private MqttClientOptionsBuilder optBuilder;
 
         public Broker(string address, int port = 1883)
             : this(address, port, null, null) { }
@@ -24,25 +26,24 @@ namespace Simple.HAMQTT
             Port = port;
             UserName = userName;
 
-            var optBuilder = new MqttClientOptionsBuilder()
+            optBuilder = new MqttClientOptionsBuilder()
                                         .WithTcpServer(address, port);
             if (userName != null)
             {
                 optBuilder = optBuilder.WithCredentials(UserName, password);
             }
+        }
 
-            brokerInfo = new BrokerInfo()
+        internal BrokerInfo getBroker()
+            => new BrokerInfo()
             {
                 MqttClientOptions = optBuilder.Build(),
             };
 
-        }
 
     }
-    public class BrokerInfo
+    public class BrokerInfo : IDisposable
     {
-        private static object lockObj = new();
-
         private MqttFactory mqttFactory;
         private IMqttClient mqttClient;
 
@@ -69,19 +70,18 @@ namespace Simple.HAMQTT
 
             if (!mqttClient.IsConnected)
             {
-                await Task.Run(() =>
-                {
-                    lock (lockObj)
-                    {
-                        if (mqttClient.IsConnected) return;
-
-                        var response = mqttClient.ConnectAsync(MqttClientOptions, CancellationToken.None).Result;
-                        response = response;
-                    }
-                });
+                await mqttClient.ConnectAsync(MqttClientOptions, CancellationToken.None);
             }
 
             return mqttClient;
+        }
+
+        public void Dispose()
+        {
+            if (mqttClient != null) return;
+
+            if (mqttClient.IsConnected) mqttClient.DisconnectAsync().Wait();
+            mqttClient.Dispose();
         }
     }
     public static class BrokerExtension
@@ -89,7 +89,7 @@ namespace Simple.HAMQTT
         public static TSource Get<TSource>(this Broker broker)
             where TSource : ModuleBase
         {
-            return (TSource)Activator.CreateInstance(typeof(TSource), broker.brokerInfo);
+            return (TSource)Activator.CreateInstance(typeof(TSource), broker.getBroker());
         }
     }
 }
