@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.1</TargetFrameworks>
 		<LangVersion>9.0</LangVersion>
-		<Version>1.0.1</Version>
+		<Version>1.0.2</Version>
 		<RepositoryUrl>https://github.com/RafaelEstevamReis/SimpleHA</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/RafaelEstevamReis/SimpleHA</PackageProjectUrl>
