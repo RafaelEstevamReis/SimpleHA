@@ -43,9 +43,8 @@ namespace Simple.HAMQTT.Modules
                .WithPayload(content)
                .Build();
 
-            var client = await brokerInfo.GetConnectedClientAsync();
-            var result = await client.PublishAsync(applicationMessage, CancellationToken.None);
-
+            var mqttClient = brokerInfo.GetClient();
+            await mqttClient.EnqueueAsync(applicationMessage);
         }
     }
 }
