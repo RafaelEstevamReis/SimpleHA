@@ -5,7 +5,6 @@ using MQTTnet.Client;
 using MQTTnet.Extensions.ManagedClient;
 using Simple.HAMQTT;
 using Simple.HAMQTT.Models;
-using Simple.HAMQTT.Modules;
 using System;
 using System.Threading.Tasks;
 
@@ -64,7 +63,7 @@ public class SampleMqtt
                 }
             }
             // Final flush queue until empty, or until 1000ms
-            SpinWait.SpinUntil(() => managedMqttClient.PendingApplicationMessagesCount == 0, 1000);
+            //SpinWait.SpinUntil(() => managedMqttClient.PendingApplicationMessagesCount == 0, 1000);
 
         }
     }
@@ -116,11 +115,10 @@ public class SampleMqtt
         */
     }
 
-    private static async Task processStatusMessageAsync(Subscribe sub, MqttApplicationMessageReceivedEventArgs arg)
-    {
-        var msg = sub.As<string>(arg.ApplicationMessage);
-
-        Console.WriteLine(msg);
-        await Task.CompletedTask;
-    }
+    //private static async Task processStatusMessageAsync(Subscribe sub, MqttApplicationMessageReceivedEventArgs arg)
+    //{
+    //    var msg = sub.As<string>(arg.ApplicationMessage);
+    //    Console.WriteLine(msg);
+    //    await Task.CompletedTask;
+    //}
 }
