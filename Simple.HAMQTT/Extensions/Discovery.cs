@@ -10,6 +10,8 @@ namespace Simple.HAMQTT
     {
         public static string DefaultDiscoveryPrefix { get; set; } = "homeassistant";
 
+        public static async Task RegisterAsync(this IManagedMqttClient mqttClient, string nodeId, Models.DeviceRegistry entry, Models.DeviceInfo device = null)
+            => await mqttClient.RegisterAsync(nodeId, new Models.DeviceRegistry[] { entry }, device);
         public static async Task RegisterAsync(this IManagedMqttClient mqttClient, string nodeId, IEnumerable<Models.DeviceRegistry> entries, Models.DeviceInfo device = null)
         {
             if (nodeId is null) throw new ArgumentNullException(nameof(nodeId));
