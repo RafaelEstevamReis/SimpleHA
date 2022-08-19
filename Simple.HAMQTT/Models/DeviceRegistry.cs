@@ -33,7 +33,7 @@ namespace Simple.HAMQTT.Models
         public string Connections { get; set; }
 
         [JsonProperty("identifiers", NullValueHandling = NullValueHandling.Ignore)]
-        public string Identifiers { get; set; }
+        public string[] Identifiers { get; set; }
 
         [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
