@@ -30,11 +30,20 @@ namespace Simple.HAMQTT
                    //                  // Without this, the sensor will not be available after Home Assistant restarts.
                    .Build();
 
-                Console.WriteLine(applicationMessage.Topic);
-                Console.WriteLine(">" + System.Text.Encoding.UTF8.GetString(applicationMessage.Payload));
-
                 await mqttClient.EnqueueAsync(applicationMessage);
             }
+        }
+
+        public static async Task UnregisterAsync(this IManagedMqttClient mqttClient, string nodeId, Models.DeviceRegistry entry)
+        {
+            string topic = $"{DefaultDiscoveryPrefix}/{entry.Component}/{nodeId}/{entry.DeviceId}/config";
+
+            var applicationMessage = new MqttApplicationMessageBuilder()
+               .WithTopic(topic)
+               .WithPayload(string.Empty)
+               .Build();
+
+            await mqttClient.EnqueueAsync(applicationMessage);
         }
 
     }
