@@ -14,16 +14,7 @@ namespace Simple.HAMQTT
 
         private static async Task publishObject(IManagedMqttClient mqttClient, string topic, object obj, bool raw = false)
         {
-            string content;
-
-            if (raw)
-            {
-                content = (string)obj;
-            }
-            else
-            {
-                content = Helpers.ToJson(obj);
-            }
+            string content = raw ? (string)obj : Helpers.ToJson(obj);
 
             var applicationMessage = new MqttApplicationMessageBuilder()
                .WithTopic(topic)
