@@ -20,15 +20,18 @@ public class SampleAPI
         var cfgSource = instance.Get<Simple.HAApi.Sources.Configuration>();
 
         var config = await cfgSource.GetConfigurationAsync();
-        var entries = await cfgSource.GetConfigurationEntriesAsync();
+        //var entries = await cfgSource.GetConfigurationEntriesAsync();
         var check = await cfgSource.CheckConfigAsync();
         //var result = await cfgSource.GetReloadEntryAsync(entries[0].EntryId);
+
+        //var cam = instance.Get<Simple.HAApi.Sources.Camera>();
+        //var img = await cam.GetImageAsync("camera.cam307pt");
 
         /* Get states from entities */
         var statesSource = instance.Get<Simple.HAApi.Sources.States>();
         var sun = await statesSource.GetStateAsync("sun.sun");
         var all = await statesSource.GetStatesAsync();
-        var switches = all.OfDomain("switch");
+        var switches = all.OfDomain(Domains.SWITCH);
         var swIds = switches.GetIds();
 
         /* Get information from Services */
@@ -47,6 +50,10 @@ public class SampleAPI
             Console.WriteLine($" {e}");
         };
         var t = eventSource.CollectEventsAsync(canSource.Token);
+
+        var hst = instance.Get<Simple.HAApi.Sources.History>();
+        var h = await hst.GetPeriodAsync(DateTime.Now.AddHours(-1), DateTime.Now);
+        var avg = h.BuildAverage().ToArray();
 
         Console.WriteLine("END");
 
