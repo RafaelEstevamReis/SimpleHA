@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Simple.HAApi</name>
+    </assembly>
+    <members>
+        <member name="M:Simple.HAApi.Sources.History.GetPeriodAsync(System.DateTime,System.DateTime,System.Boolean,System.Boolean,System.Boolean,System.String[])">
+            <summary>
+            Returns an array of state changes in the past. Each object contains further details for the entities.
+            </summary>
+            <param name="startDate">It determines the beginning of the period.</param>
+            <param name="endDate">It determines the end of the period</param>
+            <param name="minimalResponse">Only return last_changed and state for states other than the first and last state (much faster)</param>
+            <param name="includeAttributes">Determines whenever return attributes from the database (much faster)</param>
+            <param name="significantChangesOnly">Returns significant state changes</param>
+            <param name="filterIds">Filter on one or more entities, use NULL to return all entities</param>
+        </member>
+        <member name="P:Simple.HAApi.Sources.Service.Automation">
+            <summary>
+            https://www.home-assistant.io/docs/automation/services/
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Sources.Service.Climate">
+            <summary>
+            https://www.home-assistant.io/integrations/climate/
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Sources.Service.Cover">
+            <summary>
+            https://www.home-assistant.io/integrations/cover/#cover-control-services
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Sources.Service.InputBoolean">
+            <summary>
+            https://www.home-assistant.io/integrations/input_boolean/#services
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Sources.Service.Light">
+            <summary>
+            https://www.home-assistant.io/integrations/light#service-lightturn_on
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Sources.Service.MediaPlayer">
+            <summary>
+            https://www.home-assistant.io/integrations/media_player/#media-control-services
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Sources.Service.Scene">
+            <summary>
+            https://www.home-assistant.io/integrations/scene/
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Sources.Service.Switch">
+            <summary>
+            https://www.home-assistant.io/integrations/switch/#use-the-services
+            </summary>
+        </member>
+    </members>
+</doc>
