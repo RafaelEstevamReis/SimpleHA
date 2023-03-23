@@ -3,8 +3,30 @@ using System.Linq;
 
 namespace Simple.HAApi
 {
+    public enum Domains
+    {
+        AUTOMATION,
+        BINARY_SENSOR,
+        BUTTON,
+        CALENDAR,
+        CAMERA,
+        DEVICE_TRACKER,
+        LIGHT,
+        MEDIA_PLAYER,
+        PERSON,
+        SCRIPT,
+        SENSOR,
+        SUN,
+        SWITCH,
+        UPDATE,
+        WEATHER,
+        ZONE,
+    }
+
     public static class EntitiesExtensions
     {
+        public static IEnumerable<Models.StateModel> OfDomain(this IEnumerable<Models.StateModel> source, Domains domain)
+            => OfDomain(source, domain.ToString().ToLower());
         public static IEnumerable<Models.StateModel> OfDomain(this IEnumerable<Models.StateModel> source, string domain)
             => source.Where(o => o.Domain == domain);
 
