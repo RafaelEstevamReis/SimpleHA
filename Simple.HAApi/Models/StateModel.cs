@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Simple.HAApi.Models
 {
@@ -37,6 +38,20 @@ namespace Simple.HAApi.Models
             => GetAttribute<string>("friendly_name");
 
         public string Domain => EntityId?.Split('.')[0];
+
+        decimal? dval;
+        public bool GetDecimalState(out decimal dState)
+        {
+            if (dval != null)
+            {
+                dState = dval.Value;
+                return true;
+            }
+
+            var result = decimal.TryParse(State, NumberStyles.Number, CultureInfo.InvariantCulture, out dState);
+            dval = dState;
+            return result;
+        }
 
         public override string ToString() => $"{FriendlyName ?? EntityId}: {State}";
     }
