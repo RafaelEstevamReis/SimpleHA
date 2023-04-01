@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace Simple.HAApi.Models
 {
@@ -8,13 +9,8 @@ namespace Simple.HAApi.Models
     {
         public EntityStateChangeModel[][] Items { get; set; }
 
-        public IEnumerable<EntityNumericalAverageModel> BuildAverage()
-        {
-            foreach (var entity in Items)
-            {
-                yield return EntityNumericalAverageModel.Build(entity);
-            }
-        }
+        public IEnumerable<EntityNumericalAverageModel> BuildAverage() 
+            => Items.Select(EntityNumericalAverageModel.BuildWeightedAverage);
 
     }
     public class EntityStateChangeModel
@@ -25,11 +21,26 @@ namespace Simple.HAApi.Models
         public DateTime last_changed { get; set; }
         public DateTime last_updated { get; set; }
 
+        decimal? dval;
+        public bool GetDecimalState(out decimal dState)
+        {
+            if (dval != null)
+            {
+                dState = dval.Value;
+                return true;
+            }
+
+            var result = decimal.TryParse(state, NumberStyles.Number, CultureInfo.InvariantCulture, out dState);
+            dval = dState;
+            return result;
+        }
+
         public override string ToString()
         {
             return $"{entity_id} {state} on {last_changed}";
         }
     }
+
     public class EntityNumericalAverageModel
     {
         public string EntityId { get; set; }
@@ -43,7 +54,7 @@ namespace Simple.HAApi.Models
             return $"[{Entries}] {EntityId} {Average} [{Min}/{Max}]";
         }
 
-        internal static EntityNumericalAverageModel Build(EntityStateChangeModel[] entity)
+        public static EntityNumericalAverageModel BuildAverage(EntityStateChangeModel[] entity)
         {
             var e = new EntityNumericalAverageModel()
             {
@@ -51,14 +62,14 @@ namespace Simple.HAApi.Models
             };
 
             decimal sum = 0;
-            foreach(var entry in entity)
+            foreach (var entry in entity)
             {
-                if(entry.entity_id != null && e.EntityId == null ) e.EntityId = entry.entity_id;
+                if (entry.entity_id != null && e.EntityId == null) e.EntityId = entry.entity_id;
 
                 decimal value;
                 if (!decimal.TryParse(entry.state, NumberStyles.Number, CultureInfo.InvariantCulture, out value)) continue;
 
-                if(e.Entries == 0)
+                if (e.Entries == 0)
                 {
                     e.Min = e.Max = value;
                 }
@@ -74,5 +85,57 @@ namespace Simple.HAApi.Models
 
             return e;
         }
+
+        public static EntityNumericalAverageModel BuildWeightedAverage(EntityStateChangeModel[] values)
+        {
+            if (values == null || values.Length == 0) return null;
+
+            EntityNumericalAverageModel result = null;
+            EntityStateChangeModel last = null;
+
+            double totalSeconds = 0;
+            decimal totalValues = 0;
+
+            foreach (var curr in values.OrderBy(o => o.last_updated))
+            {
+                if (!curr.GetDecimalState(out decimal val)) continue;
+
+                if (result == null) // first
+                {
+                    result = new EntityNumericalAverageModel()
+                    {
+                        EntityId = curr.entity_id,
+                        Average = val,
+                        Min = val,
+                        Max = val,
+                        Entries = 1,
+                    };
+
+                    last = curr;
+                    continue;
+                }
+
+                if (result.EntityId == null && curr.entity_id != null) result.EntityId = curr.entity_id;
+
+                if (result.Max < val) result.Max = val;
+                if (result.Min > val) result.Min = val;
+
+                last.GetDecimalState(out decimal lastVal);
+
+                var timeDiff = curr.last_updated - last.last_updated;
+
+                totalSeconds += timeDiff.TotalSeconds;
+                var weightedValue = (lastVal + val) / 2;
+                totalValues += weightedValue * (decimal)timeDiff.TotalSeconds;
+
+                result.Entries++;
+                last = curr;
+            }
+
+            if(totalSeconds > 0) result.Average = totalValues / (decimal)totalSeconds;
+
+            return result;
+        }
+
     }
 }
