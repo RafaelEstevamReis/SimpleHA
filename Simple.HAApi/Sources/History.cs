@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Simple.HAApi.Sources
 {
@@ -33,7 +34,7 @@ namespace Simple.HAApi.Sources
             }
 
             string timestamp = startDate.ToString("yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture);
-            string strEndDate = endDate.ToString("yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture);
+            string strEndDate = HttpUtility.UrlEncode(endDate.ToString("yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture));
 
             var parameters = new List<string>()
             {
