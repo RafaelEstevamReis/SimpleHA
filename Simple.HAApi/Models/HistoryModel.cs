@@ -9,19 +9,28 @@ namespace Simple.HAApi.Models
     {
         public EntityStateChangeModel[][] Items { get; set; }
 
-        public IEnumerable<EntityNumericalAverageModel> BuildAverage() 
+        public IEnumerable<EntityNumericalAverageModel> BuildAverage()
             => Items.Select(EntityNumericalAverageModel.BuildWeightedAverage);
 
     }
     public class EntityStateChangeModel
     {
         public string entity_id { get; set; }
-        public string state { get; set; }
+        public string state
+        {
+            get => _state; set
+            {
+                _state = value;
+                dval = null;
+            }
+        }
         public Dictionary<string, string> attributes { get; set; }
         public DateTime last_changed { get; set; }
         public DateTime last_updated { get; set; }
 
         decimal? dval;
+        private string _state;
+
         public bool GetDecimalState(out decimal dState)
         {
             if (dval != null)
@@ -132,7 +141,7 @@ namespace Simple.HAApi.Models
                 last = curr;
             }
 
-            if(totalSeconds > 0) result.Average = totalValues / (decimal)totalSeconds;
+            if (totalSeconds > 0) result.Average = totalValues / (decimal)totalSeconds;
 
             return result;
         }
