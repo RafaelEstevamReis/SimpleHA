@@ -14,20 +14,27 @@ namespace Simple.HAApi
         public Uri Uri { get; private set; }
         public string Token { get; private set; }
 
+        public TimeSpan Timeout { get => client.Timeout; set => client.Timeout = value; }
+
         public bool IgnoreCertificatErrors { get; set; } = false;
 
         internal readonly ClientInfo client;
 
         public Instance(Uri uri, string token)
+            :this(uri, token, null)
+        { }
+        public Instance(Uri uri, string token, HttpClientHandler handler)
         {
             Uri = uri;
             Token = token;
 
-            var handler = new HttpClientHandler()
+            if (handler == null) handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback ??= certificateValidation;
+
+            client = new ClientInfo(Uri.ToString(), handler)
             {
-                ServerCertificateCustomValidationCallback = certificateValidation,
+                Timeout = TimeSpan.FromSeconds(10)
             };
-            client = new ClientInfo(Uri.ToString(), handler);
             client.SetAuthorizationBearer(Token);
         }
         private bool certificateValidation(HttpRequestMessage message, 
@@ -38,6 +45,10 @@ namespace Simple.HAApi
             if (IgnoreCertificatErrors) return true;
 
             return policy == System.Net.Security.SslPolicyErrors.None;
+        }
+        public void ConfigureInternalClient(Action<ClientInfo> action)
+        {
+            action(client);
         }
 
         public async Task<bool> CheckRunningAsync()
