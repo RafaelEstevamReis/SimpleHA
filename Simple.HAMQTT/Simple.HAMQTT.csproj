@@ -2,16 +2,24 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.1</TargetFrameworks>
-		<LangVersion>9.0</LangVersion>
-		<Version>1.0.4</Version>
+		<LangVersion>10.0</LangVersion>
+		<Version>1.0.5</Version>
 		<RepositoryUrl>https://github.com/RafaelEstevamReis/SimpleHA</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/RafaelEstevamReis/SimpleHA</PackageProjectUrl>
 		<Description>A simple Home-Assistant MQTT Client/Device</Description>
 		<PackageReadmeFile></PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	
 	<ItemGroup>
 	  <PackageReference Include="MQTTnet" Version="4.3.3.952" />
 	  <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="4.3.3.952" />
