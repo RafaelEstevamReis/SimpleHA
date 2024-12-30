@@ -64,12 +64,12 @@ namespace Simple.HAApi
         public async Task IsRunningAsync()
         {
             var info = await client.GetAsync<string>("/api/");
-            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientExeption($"Request to `/api/` Failed with code {info.StatusCode}", info);
+            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `/api/` Failed with code {info.StatusCode}", info);
         }
         public async Task<string> ErrorLogsAsync()
         {
             var info = await client.GetAsync<string>("/api/error_log");
-            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientExeption($"Request to `/API/error_log` Failed with code {info.StatusCode}", info);
+            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `/API/error_log` Failed with code {info.StatusCode}", info);
 
             return info.Data;
         }

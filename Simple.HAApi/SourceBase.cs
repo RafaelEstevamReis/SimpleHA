@@ -16,14 +16,14 @@ namespace Simple.HAApi
         protected async Task<T> GetAsync<T>(string path)
         {
             var info = await client.GetAsync<T>(path);
-            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientExeption($"Request to `{path}` Failed with code {info.StatusCode}", info);
+            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `{path}` Failed with code {info.StatusCode}", info);
 
             return info.Data;
         }
         protected async Task<T> PostAsync<T>(string path, object data)
         {
             var info = await client.PostAsync<T>(path, data);
-            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientExeption($"Request to `{path}` Failed with code {info.StatusCode}", info);
+            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `{path}` Failed with code {info.StatusCode}", info);
 
             return info.Data;
         }
@@ -31,7 +31,7 @@ namespace Simple.HAApi
         {
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var info = await client.PostAsync<T>(path, content);
-            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientExeption($"Request to `{path}` Failed with code {info.StatusCode}", info);
+            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `{path}` Failed with code {info.StatusCode}", info);
 
             return info.Data;
         }

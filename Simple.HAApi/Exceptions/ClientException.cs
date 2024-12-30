@@ -3,11 +3,11 @@ using System;
 
 namespace Simple.HAApi.Exceptions
 {
-    public class ClientExeption : Exception
+    public class ClientException : Exception
     {
         public Response Info { get; }
 
-        public ClientExeption(string message, Response info)
+        public ClientException(string message, Response info)
             : base(message)
         {
             Info = info;
