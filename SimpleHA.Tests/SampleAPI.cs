@@ -52,10 +52,10 @@ public class SampleAPI
         var t = eventSource.CollectEventsAsync(canSource.Token);
 
         var hst = instance.Get<Simple.HAApi.Sources.History>();
-        var h = await hst.GetPeriodAsync(DateTime.Now.AddHours(-1), DateTime.Now);
+        var allStateIds = all.Select(o => o.EntityId).Distinct().ToArray();
+        var h = await hst.GetPeriodAsync(DateTime.Now.AddHours(-1), DateTime.Now, filterIds: allStateIds);
         var avg = h.BuildAverage().ToArray();
 
         Console.WriteLine("END");
-
     }
 }
