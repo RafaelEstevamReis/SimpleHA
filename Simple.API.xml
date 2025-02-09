@@ -4,7 +4,7 @@
         <name>Simple.HAApi</name>
     </assembly>
     <members>
-        <member name="M:Simple.HAApi.Sources.History.GetPeriodAsync(System.DateTime,System.DateTime,System.Boolean,System.Boolean,System.Boolean,System.String[])">
+        <member name="M:Simple.HAApi.Sources.History.GetPeriodAsync(System.DateTime,System.DateTime,System.Boolean,System.Boolean,System.Boolean,System.String[],System.Int32)">
             <summary>
             Returns an array of state changes in the past. Each object contains further details for the entities.
             </summary>
@@ -14,6 +14,7 @@
             <param name="includeAttributes">Determines whenever return attributes from the database (much faster)</param>
             <param name="significantChangesOnly">Returns significant state changes</param>
             <param name="filterIds">Filter on one or more entities, use NULL to return all entities</param>
+            <param name="chunkSize">Chunked query limiter, capped at 10..500; 0: do not chunk</param>
         </member>
         <member name="P:Simple.HAApi.Sources.Service.Automation">
             <summary>

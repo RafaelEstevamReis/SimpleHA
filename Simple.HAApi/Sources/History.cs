@@ -1,4 +1,5 @@
 ﻿using Simple.API;
+using Simple.HAApi.Extensions;
 using Simple.HAApi.Models;
 using System;
 using System.Collections.Generic;
@@ -23,16 +24,51 @@ namespace Simple.HAApi.Sources
         /// <param name="includeAttributes">Determines whenever return attributes from the database (much faster)</param>
         /// <param name="significantChangesOnly">Returns significant state changes</param>
         /// <param name="filterIds">Filter on one or more entities, use NULL to return all entities</param>
+        /// <param name="chunkSize">Chunked query limiter, capped at 10..500; 0: do not chunk</param>
         public async Task<HistoryModel> GetPeriodAsync(DateTime startDate, DateTime endDate,
                                          bool minimalResponse = true, bool includeAttributes = false,
                                          bool significantChangesOnly = true,
-                                         string[] filterIds = null)
+                                         string[] filterIds = null, int chunkSize = 0)
         {
             if (filterIds != null && filterIds.Length == 0)
             {
                 throw new ArgumentException("filterIds should be null or greater than zero");
             }
 
+            // Chunk
+            if (chunkSize != 0 && chunkSize < 10) chunkSize = 10;
+            if (chunkSize > 500) chunkSize = 500;
+            // No Filters ; Do-not-Chunk ; smaller than chunk
+            if (filterIds == null || chunkSize == 0 || filterIds.Length < chunkSize)
+            {
+                return await getPeriodAsync(startDate, endDate, minimalResponse, includeAttributes, significantChangesOnly, filterIds);
+            }
+
+            var chunks = filterIds.Chunk(chunkSize);
+
+            List<EntityStateChangeModel[]> items = [];
+            foreach (var range in chunks)
+            {
+                var period = await getPeriodAsync(startDate, endDate, minimalResponse, includeAttributes, significantChangesOnly, range);
+                // Wait a little
+                await Task.Delay(25);
+
+                foreach (var e in period.Items)
+                {
+                    items.Add(e);
+                }
+            }
+
+            return new HistoryModel()
+            {
+                Items = items.ToArray()
+            };
+        }
+        async Task<HistoryModel> getPeriodAsync(DateTime startDate, DateTime endDate,
+                                         bool minimalResponse, bool includeAttributes,
+                                         bool significantChangesOnly,
+                                         string[] filterIds)
+        {
             string timestamp = startDate.ToString("yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture);
             string strEndDate = HttpUtility.UrlEncode(endDate.ToString("yyyy-MM-ddTHH:mm:sszzz", CultureInfo.InvariantCulture));
 
