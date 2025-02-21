@@ -1,5 +1,6 @@
 ﻿using Simple.API;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -21,15 +22,24 @@ namespace Simple.HAApi
         internal readonly ClientInfo client;
 
         public Instance(Uri uri, string token)
-            :this(uri, token, null)
+            : this(uri, token, null)
         { }
-        public Instance(Uri uri, string token, HttpClientHandler handler)
+        public Instance(Uri uri, string token, HttpMessageHandler handler)
         {
             Uri = uri;
             Token = token;
 
             if (handler == null) handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback ??= certificateValidation;
+            if (handler is HttpClientHandler hhdl) hhdl.ServerCertificateCustomValidationCallback ??= certificateValidation;
+#if !NETSTANDARD
+            if (handler is SocketsHttpHandler shdl)
+            {
+                if(shdl.SslOptions != null) shdl.SslOptions = new System.Net.Security.SslClientAuthenticationOptions
+                {
+                    RemoteCertificateValidationCallback = certificateValidation,
+                };
+            }
+#endif
 
             client = new ClientInfo(Uri.ToString(), handler)
             {
@@ -37,8 +47,8 @@ namespace Simple.HAApi
             };
             client.SetAuthorizationBearer(Token);
         }
-        private bool certificateValidation(HttpRequestMessage message, 
-                                           System.Security.Cryptography.X509Certificates.X509Certificate2 certificate,
+        private bool certificateValidation(object sender,
+                                           System.Security.Cryptography.X509Certificates.X509Certificate certificate,
                                            System.Security.Cryptography.X509Certificates.X509Chain chain,
                                            System.Net.Security.SslPolicyErrors policy)
         {
