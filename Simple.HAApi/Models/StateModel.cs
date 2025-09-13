@@ -52,6 +52,12 @@ namespace Simple.HAApi.Models
             dval = dState;
             return result;
         }
+        public bool GetDateTimeState(out DateTime dtState)
+        {
+            return DateTime.TryParse(State, CultureInfo.InvariantCulture, DateTimeStyles.None, out dtState);
+        }
+        public bool IsUnavailable => "Unavailable".Equals(State, StringComparison.InvariantCultureIgnoreCase);
+        public bool IsUnkown => "Unknown".Equals(State, StringComparison.InvariantCultureIgnoreCase);
 
         public override string ToString() => $"{FriendlyName ?? EntityId}: {State}";
     }
