@@ -56,5 +56,10 @@
             https://www.home-assistant.io/integrations/switch/#use-the-services
             </summary>
         </member>
+        <member name="P:Simple.HAApi.Sources.Service.Button">
+            <summary>
+            https://www.home-assistant.io/integrations/button
+            </summary>
+        </member>
     </members>
 </doc>
