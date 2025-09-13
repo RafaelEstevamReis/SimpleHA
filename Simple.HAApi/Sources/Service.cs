@@ -64,6 +64,10 @@ namespace Simple.HAApi.Sources
         /// https://www.home-assistant.io/integrations/switch/#use-the-services
         /// </summary>
         public static OnOff Switch { get; } = new("switch");
+        /// <summary>
+        /// https://www.home-assistant.io/integrations/button
+        /// </summary>
+        public static ButtonPress Button { get; } = new();
 
         public class OnOff
         {
@@ -89,6 +93,10 @@ namespace Simple.HAApi.Sources
             public readonly string Pause = "media_player.media_pause";
             public readonly string Stop = "media_player.media_stop";
             public readonly string Toggle = "media_player.toggle";
+        }
+        public class ButtonPress
+        {
+            public readonly string Press = "button.press";
         }
     }
 }
