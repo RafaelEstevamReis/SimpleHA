@@ -1,10 +1,11 @@
 # Simple.HA
 A simple c# Home-Assistant library
 
+|  Packages      |                          |
+| -------------- | ------------------------ |
+| Simple.HAApi:  | [![NuGet](https://img.shields.io/nuget/v/Simple.HAApi)](https://www.nuget.org/packages/Simple.HAApi/)   |
+| Simple.HAMQTT: | [![NuGet](https://img.shields.io/nuget/v/Simple.HAMQTT)](https://www.nuget.org/packages/Simple.HAMQTT/) |
 
-Simple.HAApi: [![NuGet](https://buildstats.info/nuget/Simple.HAApi)](https://www.nuget.org/packages/Simple.HAApi/)
-
-Simple.HAMQTT: [![NuGet](https://buildstats.info/nuget/Simple.HAMQTT)](https://www.nuget.org/packages/Simple.HAMQTT/)
 
 ## What is?
 
