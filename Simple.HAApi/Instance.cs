@@ -75,10 +75,17 @@ namespace Simple.HAApi
             var info = await client.GetAsync<string>("/api/");
             if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `/api/` Failed with code {info.StatusCode}", info);
         }
+        public async Task<Models.CoreStateModel> GetCoreState()
+        {
+            var info = await client.GetAsync<Models.CoreStateModel>("/api/core/state");
+            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `/api/core/state` Failed with code {info.StatusCode}", info);
+
+            return info.Data;
+        }
         public async Task<string> ErrorLogsAsync()
         {
             var info = await client.GetAsync<string>("/api/error_log");
-            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `/API/error_log` Failed with code {info.StatusCode}", info);
+            if (!info.IsSuccessStatusCode) throw new Exceptions.ClientException($"Request to `/api/error_log` Failed with code {info.StatusCode}", info);
 
             return info.Data;
         }
