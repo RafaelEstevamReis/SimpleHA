@@ -9,7 +9,7 @@ namespace Simple.HAApi.Sources
             : base(info)
         { }
 
-        public async Task<Models.ConfigurationModel> GetConfigurationAsync() 
+        public async Task<Models.ConfigurationModel> GetConfigurationAsync()
             => await GetAsync<Models.ConfigurationModel>("/api/config");
 
         public async Task<Models.ConfigurationEntriesModel[]> GetConfigurationEntriesAsync(string type)
