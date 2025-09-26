@@ -1,29 +1,28 @@
-﻿using Newtonsoft.Json;
+﻿namespace Simple.HAApi.Models;
 
-namespace Simple.HAApi.Models
+using Newtonsoft.Json;
+
+public class EventModel
 {
-    public class EventModel
+    [JsonProperty("event_type")]
+    public string EventType { get; set; }
+    [JsonProperty("data")]
+    public EventData EventData { get; set; }
+
+    public override string ToString()
     {
-        [JsonProperty("event_type")]
-        public string EventType { get; set; }
-        [JsonProperty("data")]
-        public EventData EventData { get; set; }
-
-        public override string ToString()
-        {
-            return $"[{EventType}] {EventData?.EntityId}";
-        }
+        return $"[{EventType}] {EventData?.EntityId}";
     }
-    public class EventData
-    {
-        [JsonProperty("entity_id")]
-        public string EntityId { get; set; }
+}
+public class EventData
+{
+    [JsonProperty("entity_id")]
+    public string EntityId { get; set; }
 
 
-        [JsonProperty("old_state")]
-        public StateModel OldState { get; set; }
-        [JsonProperty("new_state")]
-        public StateModel NewState { get; set; }
+    [JsonProperty("old_state")]
+    public StateModel OldState { get; set; }
+    [JsonProperty("new_state")]
+    public StateModel NewState { get; set; }
 
-    }
 }

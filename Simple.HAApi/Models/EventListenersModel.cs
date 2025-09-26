@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace Simple.HAApi.Models;
 
-namespace Simple.HAApi.Models
+using Newtonsoft.Json;
+
+public class EventListenersModel
 {
-    public class EventListenersModel
-    {
-        public string Event { get; set; }
-        [JsonProperty("listener_count")]
-        public int ListenerCount { get; set; }
-    }
+    public string Event { get; set; }
+    [JsonProperty("listener_count")]
+    public int ListenerCount { get; set; }
 }
