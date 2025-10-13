@@ -1,5 +1,5 @@
 # Simple.HA
-A simple c# Home-Assistant library
+A simple C# Home-Assistant library
 
 |  Packages      |                          |
 | -------------- | ------------------------ |
