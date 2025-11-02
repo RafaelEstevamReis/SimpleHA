@@ -4,6 +4,81 @@
         <name>Simple.HAApi</name>
     </assembly>
     <members>
+        <member name="T:Simple.HAApi.Instance">
+            <summary>
+            Represents a HomeAssistant instance
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Instance.Uri">
+            <summary>
+            Current HomeAssistant URI
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Instance.Token">
+            <summary>
+            Current used Token
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Instance.Timeout">
+            <summary>
+            Sets timeout for operations
+            </summary>
+        </member>
+        <member name="P:Simple.HAApi.Instance.IgnoreCertificatErrors">
+            <summary>
+            Ignores any certificate errors, use with caution
+            </summary>
+        </member>
+        <member name="M:Simple.HAApi.Instance.#ctor(System.Uri,System.String)">
+            <summary>
+            Creates a new Instance to represent a HomeAssitant server
+            </summary>
+            <param name="uri">Server's URI to conenct to</param>
+            <param name="token">Token to authenticate as</param>
+        </member>
+        <member name="M:Simple.HAApi.Instance.#ctor(System.Uri,System.String,System.Net.Http.HttpMessageHandler)">
+            <summary>
+            Creates a new Instance to represent a HomeAssitant server
+            </summary>
+            <param name="uri">Server's URI to conenct to</param>
+            <param name="token">Token to authenticate as</param>
+            <param name="handler">Http Handler to configure connections options as Proxy</param>
+        </member>
+        <member name="M:Simple.HAApi.Instance.ConfigureInternalClient(System.Action{Simple.API.ClientInfo})">
+            <summary>
+            Allows the additional configuration of the internal API Client
+            </summary>
+        </member>
+        <member name="M:Simple.HAApi.Instance.CheckRunningAsync">
+            <summary>
+            Checks if the inntance is responsive, intally uses IsRunningAsync()
+            </summary>
+        </member>
+        <member name="M:Simple.HAApi.Instance.IsRunningAsync">
+            <summary>
+            Calls /api to check if the instance is responsive
+            </summary>
+        </member>
+        <member name="M:Simple.HAApi.Instance.GetCoreState">
+            <summary>
+            Gets nstance Core State
+            </summary>
+        </member>
+        <member name="M:Simple.HAApi.Instance.ErrorLogsAsync">
+            <summary>
+            Requests error logs
+            </summary>
+        </member>
+        <member name="T:Simple.HAApi.InstanceExtension">
+            <summary>
+            Extension class to add Fluent to Instance
+            </summary>
+        </member>
+        <member name="M:Simple.HAApi.InstanceExtension.Get``1(Simple.HAApi.Instance)">
+            <summary>
+            Gets the Source for the instance
+            </summary>
+        </member>
         <member name="M:Simple.HAApi.Sources.History.GetPeriodAsync(System.DateTime,System.DateTime,System.Boolean,System.Boolean,System.Boolean,System.String[],System.Int32)">
             <summary>
             Returns an array of state changes in the past. Each object contains further details for the entities.
